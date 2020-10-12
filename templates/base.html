@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+  {% block css %}
+  {% endblock %}
+  <title>Instaclone</title>
+</head>
+<body>
+
+  <!-- navbar  -->
+  <nav class="navbar navbar-light bg-light d-flex justify-content-around w-100 sticky-top">
+    <a class="navbar-brand" href="{%url 'articles:index' %}">Instagram</a>
+    <!-- 검색-->
+    <form actopm="" method="POST" class="ml-0">
+      {% csrf_token %}
+      <input class="form-control mr-sm-2 text-center" type="search" placeholder="🔍Search" aria-label="Search">
+    </form>
+    <!-- 로그인/비로그인 시 보여질 메뉴-->
+    {% if request.user.is_authenticated %}
+    <ul class="navbar-nav flex-row mr-2">
+      <!--index-->
+      <li class="nav-item">
+        <a class="nav-link mr-3" href="{% url 'articles:index'%}">
+          <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
+            <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+          </svg>
+        </a>
+      </li>
+      <!--create-->
+      <li class="nav-item">
+        <a class="nav-link mr-3" href="{% url 'articles:create'%}">
+          <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg>
+        </a>
+      </li>
+      <!--info-->
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          my_info
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">프로필</a>
+          <a class="dropdown-item" href="#">설정</a>
+          <div class="dropdown-divider"></div>
+          <form action="{%url 'accounts:logout' %}" method="POST" class="dropdown-item">
+            {% csrf_token %}
+            <button class="btn btn-default pl-0" >로그아웃</button>
+          </form>
+        </div>
+      </li>
+    </ul>
+    {% else %}
+    <div>
+      <a href="{%url 'accounts:login'%}"><button class="btn btn-primary">로그인</button></a>
+      <a href="{%url 'accounts:signup' %}"><button class="btn btn-outline-primary">가입하기</button></a>
+    </div>
+    {% endif %}
+    
+      
+      
+      
+    
+  </nav>
+  <!-- 끝 navbar  -->
+
+  <!-- 컨텐츠-->
+  <div class="container" style="width:914px; height:914px;">
+    {% block content %}
+    {% endblock content %}
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
