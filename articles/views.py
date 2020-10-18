@@ -36,3 +36,27 @@ def detail(request,article_pk):
         'article':article,
     }
     return render(request,'articles/detail.html',context)
+
+
+@require_http_methods(['GET','POST'])
+@login_required
+def update(request,article_pk):
+    # 업데이터를 하려면, 원래 데이터 가져오기
+    article = get_object_or_404(Article,pk=article_pk)
+    # 시도하는 유저와 글 쓴 유저가 같나요?
+    if request.user == article.user:
+        # post방식인가요?
+        if request.method == 'POST':
+            form = ArticleForm(request.POST,instance=article)
+            # 유효성 검사할까요
+            if form.is_valid():
+                form.save()
+                return redirect('articles:detail',article.pk)
+        else:
+            form = ArticleForm(instance=article)
+    else:
+        return redirect('articles:detail',article.pk)
+    context={
+        'form':form,
+    }
+    return render(request,'articles/form.html',context)
