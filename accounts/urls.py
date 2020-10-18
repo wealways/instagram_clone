@@ -9,4 +9,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     # # delete session
     path('logout/', views.logout, name='logout'),
+    # profile
+    # follow
 ]
