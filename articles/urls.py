@@ -9,6 +9,7 @@ urlpatterns = [
     #update
     path('<int:article_pk>/update/',views.update,name='update'),
     #delete
+    path('<int:article_pk>/delete/',views.delete,name='delete'),
     # like
-
+    path('<int:article_pk>/like/',views.like,name='like'),
 ]
