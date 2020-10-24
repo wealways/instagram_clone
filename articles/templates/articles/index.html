@@ -50,8 +50,9 @@
                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                 </svg>
               </button>
+            {% endif %}
           </form>
-          {% endif %}
+          
           <!--디테일페이지로 가기-->
           <a href="{% url 'articles:detail' article.pk%}" style="padding:5px; color:black;">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-chat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +60,7 @@
             </svg>
           </a>
         </div>
-        <span id="likeCount-{{article.pk}}" class="d-inline font-weight-ligh" style="font-size:0.8rem"> {{ article.like_users.all|length }}명이 이 글을 좋아합니다.</span> 
+        <span id="likeCount-{{article.pk}}" class="d-inline font-weight-ligh" style="font-size:0.8rem"> {{ article.like_user.all|length }}명이 이 글을 좋아합니다.</span> 
         <!-- 글 내용-->
         <div class="card-title mt-2 mb-0">
           <p class="card-text"><a class="font-weight-bolder" style="color:black;" href="">{{article.user}}</a> {{article.content}}</p>
@@ -143,7 +144,7 @@
           //하트색 변하게 만들기
           const likeHeart = document.querySelector(`.heart-${articleId}`)
           likeHeart.style.color= is_like ? 'crimson' : 'black'
-
+          console.log(likeHeart)
           //좋아요 수 변하게 만들기
           const likeCount = document.querySelector(`#likeCount-${articleId}`)
           likeCount.innerText = `${like_count}명이 이 글을 좋아합니다.`
