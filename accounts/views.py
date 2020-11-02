@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect
-from .forms import CustomUserCreationForm
+from django.shortcuts import render,redirect,get_object_or_404
+from .forms import CustomUserCreationForm,CustomUserChangeForm
 
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -8,8 +8,11 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
 )
 from django.contrib.auth import get_user_model
-
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
+from .models import User
+from django.contrib.auth.decorators import login_required
+
+
 # 회원가입 (GET - 회원가입폼 보내기) // (POST - 사용자가 입력한 개인정보 디비저장)
 @require_http_methods(['GET', 'POST'])
 def signup(request):
@@ -54,3 +57,28 @@ def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
         return redirect('articles:index')
+
+
+#profile
+def profile(request,username):
+    person = get_object_or_404(get_user_model(),username=username)
+    context = {
+        'person' : person,
+    }
+    return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+def update(request):
+    print('ho')
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('articles:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/update.html', context)
