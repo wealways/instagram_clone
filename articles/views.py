@@ -49,7 +49,7 @@ def update(request,article_pk):
     if request.user == article.user:
         # post방식인가요?
         if request.method == 'POST':
-            form = ArticleForm(request.POST,instance=article)
+            form = ArticleForm(request.POST,request.FILES,instance=article)
             # 유효성 검사할까요
             if form.is_valid():
                 form.save()
