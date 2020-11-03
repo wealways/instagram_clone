@@ -48,7 +48,7 @@
         <a class="nav-link" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           my_info
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu position-absolute" aria-labelledby="navbarDropdown" >
           <a class="dropdown-item" href="{%url 'accounts:profile' request.user.username %}">프로필</a>
           <a class="dropdown-item" href="#">설정</a>
           <div class="dropdown-divider"></div>
@@ -66,6 +66,7 @@
     </div>
     {% endif %}
   </nav>
+  
   <!-- 끝 navbar  -->
 
   <!-- 컨텐츠-->
