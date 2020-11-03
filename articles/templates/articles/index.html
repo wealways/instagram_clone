@@ -5,23 +5,21 @@
   
   <!--section-->
   <div class="col-8">
-    <div class="border" style="width: 100%; height:5rem; margin-bottom:2rem;">
+    <div class="border" style="width: 100%; height:5rem; margin-bottom:2rem; background-color:white;">
       <div> 스토리</div>
     </div> 
     {% for article in articles %}
     <div class="card mb-5"  style="width: 100%;">
       <!-- card header -->
-      <header style="width:100%; height:60px;">
-        <div class="row card-body justify-content-start">
-          <div class="col-4 d-inline">
-            <span>
-              profile
-            </span>
-            <span>
-              <a href="">{{article.user}}</a>
-            </span>
+      <header class="border-bottom" style="width:100%; height:60px;">
+        <div class="row card-body justify-content-start pt-1">
+          <div>
+            <img class="rounded-circle border border-danger" src="{{article.user.image.url}}"  alt="{{article.user.image}}" style="width:3rem; height:3rem;">
           </div>
-          <div class="col d-flex justify-content-end">
+          <div class="col d-flex justify-content-between align-items-center">
+            <span class="pl-2">
+              <a href="{%url 'accounts:profile' article.user%}">{{article.user}}</a>
+            </span>
             <a href="" style="color:black;">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>

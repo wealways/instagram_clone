@@ -12,7 +12,7 @@
   {% endblock %}
   <title>Instaclone</title>
 </head>
-<body>
+<body style="background-color:ivory;">
 
   <!-- navbar  -->
   <nav class="navbar navbar-light bg-light d-flex justify-content-around w-100 sticky-top">
@@ -48,8 +48,8 @@
         <a class="nav-link" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           my_info
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">프로필</a>
+        <div class="dropdown-menu position-absolute" aria-labelledby="navbarDropdown" >
+          <a class="dropdown-item" href="{%url 'accounts:profile' request.user.username %}">프로필</a>
           <a class="dropdown-item" href="#">설정</a>
           <div class="dropdown-divider"></div>
           <form action="{%url 'accounts:logout' %}" method="POST" class="dropdown-item">
@@ -66,6 +66,7 @@
     </div>
     {% endif %}
   </nav>
+  
   <!-- 끝 navbar  -->
 
   <!-- 컨텐츠-->
