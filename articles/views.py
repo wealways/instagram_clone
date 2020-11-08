@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods,require_POST,requi
 from django.http import JsonResponse
 # Create your views here.
 def index(request):
-    articles = Article.objects.all()
+    articles = Article.objects.all().order_by('-pk')
     context = {
         'articles':articles,
     }
