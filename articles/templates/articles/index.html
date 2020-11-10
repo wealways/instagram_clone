@@ -2,12 +2,12 @@
 {% load static %}
 {% block content %}
 <div class="row flex-row" style="padding-top: 30px;">
-  
+
   <!--section-->
   <div class="col-8">
     <div class="border" style="width: 100%; height:5rem; margin-bottom:2rem; background-color:white;">
       <div> 스토리</div>
-    </div> 
+    </div>
     {% for article in articles %}
     <div class="card mb-5"  style="width: 100%;">
       <!-- card header -->
@@ -50,7 +50,7 @@
               </button>
             {% endif %}
           </form>
-          
+
           <!--디테일페이지로 가기-->
           <a href="{% url 'articles:detail' article.pk%}" style="padding:5px; color:black;">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-chat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@
             </svg>
           </a>
         </div>
-        <span id="likeCount-{{article.pk}}" class="d-inline font-weight-ligh" style="font-size:0.8rem"> {{ article.like_user.all|length }}명이 이 글을 좋아합니다.</span> 
+        <span id="likeCount-{{article.pk}}" class="d-inline font-weight-ligh" style="font-size:0.8rem"> {{ article.like_user.all|length }}명이 이 글을 좋아합니다.</span>
         <!-- 글 내용-->
         <div class="card-title mt-2 mb-0">
           <p class="card-text"><a class="font-weight-bolder" style="color:black;" href="">{{article.user}}</a> {{article.content}}</p>
@@ -69,7 +69,7 @@
             댓글
           </div>
           <!--댓글모달-->
-          <button class="btn" data-toggle="modal" data-target="#postModal">
+          <button class="btn" data-toggle="modal" data-target="#postModal-{{ article.id }}">
           댓글 더보기
           </button>
           {% include "articles/_modal.html" with article=article %}
@@ -95,23 +95,23 @@
 {% block script %}
 <script>
   // 좋아요 기능 구현 : 버튼 클릭시 하트색이 변하고 숫자가 증가한다
-  // 1. (이벤트) 좋아요 하트 클릭 
+  // 1. (이벤트) 좋아요 하트 클릭
   // 2. ( 결과1 ) 하트색이 변함
   // 3. ( 결과2 ) 숫자가 변함
 
   const likeBtnForms = document.querySelectorAll('#form_like')
-  
+
   likeBtnForms.forEach(likeBtnForm => {
     const articleId =likeBtnForm.dataset.articleid
     console.log(articleId)
     likeBtnForm.addEventListener('click',function (e) {
-      e.preventDefault() 
-      
-      const API_URL = `/articles/${articleId}/like/` 
+      e.preventDefault()
+
+      const API_URL = `/articles/${articleId}/like/`
       const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value
       const options = {headers: {'X-CSRFToken': csrfToken}}
 
-      
+
       axios.post(API_URL,{},options)
         .then(res => {
           // view에서 원하는 데이터만 json으로 보내주게 만들기
@@ -124,7 +124,7 @@
           //좋아요 수 변하게 만들기
           const likeCount = document.querySelector(`#likeCount-${articleId}`)
           likeCount.innerText = `${like_count}명이 이 글을 좋아합니다.`
-    
+
         })
         .catch(res => {
           alert('로그인해주세요')

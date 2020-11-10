@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 # 회원가입 (GET - 회원가입폼 보내기) // (POST - 사용자가 입력한 개인정보 디비저장)
 @require_http_methods(['GET', 'POST'])
 def signup(request):
-    
+
     # 이미 로그인되어있는 사람은 접근 금지
     if request.user.is_authenticated:
         return redirect('articles:index')
