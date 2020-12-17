@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock css%}
 {% block content %}
 <div class="row flex-row" style="padding-top: 30px;">
 
@@ -14,7 +17,7 @@
       <header class="border-bottom" style="width:100%; height:60px;">
         <div class="row card-body justify-content-start pt-1">
           <div>
-            <img class="rounded-circle border border-danger" src="{{article.user.image.url}}"  alt="{{article.user.image}}" style="width:3rem; height:3rem;">
+            <img class="rounded-circle border-danger" src="{{article.user.image.url}}"  alt="{{article.user.image}}" style="width:3rem; height:3rem; border:2px solid; padding:2px;">
           </div>
           <div class="col d-flex justify-content-between align-items-center">
             <span class="pl-2">
@@ -80,15 +83,21 @@
   </div>
   <!--aside-->
   <div class="col">
-    <div class="card" style="width: 100%;">
-      <div class="card-body" >
-        <h5 class="card-title">Card title</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+    <div class="row align-items-center aside-header">
+      <div>
+        <a href="{%url 'accounts:profile' request.user%}"><img class="aside-profile" src="{{request.user.image.url}}" alt=""></a>
+      </div>
+      <div class="aside-username">
+        <a href="{%url 'accounts:profile' request.user%}">
+          <strong>{{request.user.username}}</strong>
+        </a>
       </div>
     </div>
+    <div class="aside-body">
+      <div><p>회원님을 위한 추천</p></div>
+      <div>프로필 쭉..</div>
+    </div>
+    <div class="aside-footer"><p>© 2020 INSTAGRAM CLONE PROJECT</p></div>
   </div>
 </div>
 {% endblock  %}
