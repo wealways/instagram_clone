@@ -1,0 +1,16 @@
+<div class="modal fade" id="postInformationModal-{{ article.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog col-4 rounded-top rounded-bottom">
+    <div class="modal-content align-items-center">
+      {% if article.user == request.user %}
+      <div class="modal-body">
+      <form action="{%url 'articles:delete' article.pk%}" method="post">{% csrf_token %}<button>게시물삭제</button></form>
+      </div>
+      {% else %}
+      <div class="modal-body"><a href="">팔로우취소</a></div>
+      {% endif %}
+      <div class="modal-body"><a href="">게시물로 이동</a></div>
+      <div class="modal-body"><a href="">링크 복사</a></div>
+      <div class="modal-body"><a href="">취소</a></div>
+    </div>
+  </div>
+</div>

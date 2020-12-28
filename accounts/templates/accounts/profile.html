@@ -92,10 +92,10 @@
 </div>
 <div class="row row-cols-1 row-cols-3">
   {% for article in person.article_set.all reversed %}
-  <div class="col">
+  <div class="col-4 mb-3">
     <div class="card">
       <a href="" data-toggle="modal" data-target="#postModal">
-        <img src="{{ article.image.url}}" alt="{{article.image}}" class="card-img-top" width="300" height="250">
+        <img src="{{ article.image.url}}" alt="{{article.image}}" class="card-img-top">
       </a>
       {% include 'articles/_modal.html' %}
     </div>
