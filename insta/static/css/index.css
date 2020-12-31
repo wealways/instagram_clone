@@ -20,6 +20,18 @@
 .aside-body{
   height: 360px;
 }
+.aside-body-p {
+  color:rgba(var(--f52,142,142,142),1);
+}
 .aside-footer > p{
   color: rgba(var(--edc,199,199,199),1);
+}
+a[href]:hover{
+  text-decoration: none !important;
+}
+.modal-button{
+  border:0px;
+  background-color: white;
+  color:rgba(var(--i30,237,73,86),1);
+  font-weight: 700;
 }
