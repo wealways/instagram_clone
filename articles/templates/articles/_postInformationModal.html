@@ -3,7 +3,7 @@
     <div class="modal-content align-items-center">
       {% if article.user == request.user %}
       <div class="modal-body">
-      <form action="{%url 'articles:delete' article.pk%}" method="post">{% csrf_token %}<button>게시물삭제</button></form>
+      <form action="{%url 'articles:delete' article.pk%}" method="post">{% csrf_token %}<button class="modal-button">게시물삭제</button></form>
       </div>
       {% else %}
       <div class="modal-body"><a href="">팔로우취소</a></div>
