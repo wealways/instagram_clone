@@ -7,17 +7,31 @@
       <img class="card-img" src="{{ article.image.url}}" alt="{{article.image}}">
     </div>
     <div class="col d-flex flex-column justify-content-between">
-      <div class="modal-header">
-        <h5 class="modal-title" id="postModalLabel">Modal title</h5>
-        <a href="" style="color:black;" data-toggle="modal" data-target="#postInformationModal-{{ article.id }}">
+      <header class="border-bottom" style="width:100%; height:60px;">
+        <div class="row card-body justify-content-start pt-1">
+          <div>
+            <img class="rounded-circle border-danger" src="{{article.user.image.url}}"  alt="{{article.user.image}}" style="width:3rem; height:3rem; border:2px solid; padding:2px;">
+          </div>
+          <div class="col d-flex justify-content-between align-items-center pl-1">
+            <span class="pl-2">
+              <a href="{%url 'accounts:profile' article.user%}">{{article.user}}</a>
+            </span>
+            <a href="" style="color:black;" data-toggle="modal" data-target="#postInformationModal-{{ article.id }}">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
               </svg>
             </a>
             {% include "articles/_postInformationModal.html" with article=article %}
-      </div>
+          </div>
+        </div>
+      </header>
       <div class="modal-body ">
-        {{ article.content}}
+        <div class="modal-body-content">
+          {{ article.content}}
+        </div>
+        <div class="mb-2">
+          댓글
+        </div>
       </div>
       <div>
         <div class="modal-footer pt-0">
@@ -25,7 +39,7 @@
             <!--좋아요-->
             <form action="{% url 'articles:like' article.pk %}"  method="POST" id="form_like" data-articleId="{{article.pk}}"  class="d-inline">
               {% csrf_token %}
-              {% if user in article.like_user.all %}
+              {% if request.user in article.like_user.all %}
                 <button class="btn" style="padding-left:5px; padding-right:5px; box-shadow: none !important;">
                   <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart-fill heart-{{article.pk}}" style="color:crimson;" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -46,7 +60,7 @@
               </svg>
             </a>
           </div>
-          <div style="width:100%; font-size:0.8em;"> <strong>좋아요 {{article.like_user.count}}개</strong></div>
+          <div style="width:100%; font-size:0.8em;"> <strong id="likeCount-{{article.pk}}">좋아요 {{article.like_user.count}}개</strong></div>
           <div style="width:100%; font-size:0.4em;"> {{article.created_at}}</div>
         </div>
         <div class="border-top">
@@ -64,40 +78,33 @@
 {% endblock content %}
 {% block script %}
 <script>
-// 좋아요 기능 구현 : 버튼 클릭시 하트색이 변하고 숫자가 증가한다
-  // 1. (이벤트) 좋아요 하트 클릭
-  // 2. ( 결과1 ) 하트색이 변함
-  // 3. ( 결과2 ) 숫자가 변함
-
   const likeBtnForm = document.querySelector('#form_like')
-  const articleId =likeBtnForm.dataset.articleid
-
+  const articleid =likeBtnForm.dataset.articleid
+  console.log(likeBtnForm.dataset)
+  console.log(articleid)
   likeBtnForm.addEventListener('click',function (e) {
-    e.preventDefault()
-
-    const API_URL = `/articles/${articleId}/like/`
+    e.preventDefault() 
+    
+    const API_URL = `/articles/${articleid}/like/`
     const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value
     const options = {headers: {'X-CSRFToken': csrfToken}}
 
-
     axios.post(API_URL,{},options)
       .then(res => {
-        // view에서 원하는 데이터만 json으로 보내주게 만들기
-        const { is_like,like_count } =res.data // ex{'is_like':true, 'like_count':1 }
-        console.log(is_like)
-        //하트색 변하게 만들기
-        const likeHeart = document.querySelector(`.heart-${articleId}`)
-        likeHeart.style.color= is_like ? 'crimson' : 'black'
-        console.log(likeHeart)
-        //좋아요 수 변하게 만들기
-        const likeCount = document.querySelector(`#likeCount-${articleId}`)
-        likeCount.innerText = `${like_count}명이 이 글을 좋아합니다.`
+        
+        const { is_like,like_count } =res.data 
+        const likecart = document.querySelector(`.heart-${articleid}`)
+        likecart.style.color= is_like ? 'crimson' : 'black'
 
+        const likeCount = document.querySelector(`#likeCount-${articleid}`)
+        likeCount.innerText = `좋아요 ${like_count}개`
+        
       })
       .catch(res => {
-        alert('로그인해주세요')
+        console.log(res.data)
       })
-    })
+  })
+  
   
 </script>
 {% endblock script %}
