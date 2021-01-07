@@ -12,4 +12,8 @@ urlpatterns = [
     path('<int:article_pk>/delete/',views.delete,name='delete'),
     # like
     path('<int:article_pk>/like/',views.like,name='like'),
+    # create comment
+    path('<int:article_pk>/comments/', views.create_comment, name='create_comment'),
+    # delete comment
+    # path('<int:article_pk>/comments/<int:comment_pk>/delete/', views.delete_comment, name='delete_comment'),
 ]

@@ -1,0 +1,12 @@
+.comment {
+  display: flex;
+  flex-direction: row;
+}
+.comment-body {
+  display: flex;
+  flex-direction: row;
+}
+.comment .comment-profile img{
+  border-radius: 50%;
+  width:2rem;
+}
