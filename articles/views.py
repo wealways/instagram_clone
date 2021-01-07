@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import ArticleForm
-from .models import Article
+from .forms import ArticleForm,CommentForm
+from .models import Article, Comment
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods,require_POST,require_GET
@@ -34,8 +34,12 @@ def create(request):
 
 def detail(request,article_pk):
     article = get_object_or_404(Article,pk=article_pk)
+    comments = article.comment_set.all()
+    comment_form = CommentForm()
     context={
         'article':article,
+        'comment_form': comment_form,
+        'comments': comments,
     }
     return render(request,'articles/detail.html',context)
 
@@ -97,3 +101,33 @@ def like(request,article_pk):
         }
         return JsonResponse(data)
     return redirect('accounts:login')
+
+
+# create_comment
+@require_POST
+def create_comment(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.article = article
+        comment.user = request.user
+        comment.save()
+        print('hi')
+        return redirect('articles:detail', article.pk)
+    context = {
+        'comment_form': comment_form,
+        'article': article,
+        'comments': article.comment_set.all(),
+    }
+    return render(request, 'articles/detail.html', context)
+
+
+# delete_comment
+@require_POST
+def delete_comment(request,article_pk,comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect('articles:detail', article_pk)

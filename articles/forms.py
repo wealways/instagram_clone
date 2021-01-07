@@ -28,8 +28,8 @@ class ArticleForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     
     content = forms.CharField(
-        label = 'Content',
-        widget=forms.Textarea(
+        label = '',
+        widget=forms.TextInput(
             attrs={
                 'class':"my-content form-control",
             }

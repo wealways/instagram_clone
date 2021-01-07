@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/articles_detail.css' %}">
+{% endblock css%}
 {% block content %}
 <div class="card m-5">
   <div class="row no-gutters">
@@ -26,12 +29,20 @@
         </div>
       </header>
       <div class="modal-body ">
-        <div class="modal-body-content">
+        <div class="modal-body-content mb-3">
           {{ article.content}}
         </div>
-        <div class="mb-2">
-          댓글
+        
+        <div class="comment">
+          {% for comment in comments %}
+          <div class="comment-body">
+            <div class="comment-profile"><img src="{{comment.user.image.url}}" alt=""></div>
+            <div class="comment-username">{{comment.user}}</div>
+            <div class="comment-content">{{comment.content}}</div>
+          </div>  
+          {% endfor %}
         </div>
+        
       </div>
       <div>
         <div class="modal-footer pt-0">
@@ -64,12 +75,11 @@
           <div style="width:100%; font-size:0.4em;"> {{article.created_at}}</div>
         </div>
         <div class="border-top">
-          <div class="input-group">
-            <input type="text" class="form-control" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-outline-primary btn-sm" type="button" id="button-addon2">게시</button>
-            </div>
-          </div>
+          <form action="{% url 'articles:create_comment' article.pk %}" method="POST" class="input-group">
+            {% csrf_token %}
+            {{comment_form}}
+            <button class="btn btn-outline-primary btn-sm" type="button">게시</button>
+          </form>
         </div>
       </div>
     </div>
